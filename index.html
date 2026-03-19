@@ -9,7 +9,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
-        /* --- EXPANDING CARDS CSS --- */
+        /* --- SINGLE EXPANDING CARD CSS --- */
         #subject-detail-section .container {
             display: flex;
             flex-direction: column;
@@ -20,23 +20,27 @@
         #subject-detail-section .panel {
             background-size: cover;
             background-position: center;
-            height: 80px;
+            height: 120px;
             border-radius: 25px;
             margin: 10px 0;
             position: relative;
             overflow: hidden;
-            transition: height 0.5s ease, transform 0.3s ease;
+            transition: height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s ease;
+            border: 2px solid #333;
         }
-        #subject-detail-section .panel:hover { height: 400px; transform: scale(1.02); }
+        #subject-detail-section .panel:hover { 
+            height: 550px; 
+            transform: scale(1.01);
+            border-color: #b74b4b;
+        }
         #subject-detail-section .panel h3 {
-            position: absolute; bottom: 20px; left: 20px; opacity: 0;
-            background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 10px; color: white;
-            font-size: 1.8rem;
+            position: absolute; bottom: 30px; left: 30px; opacity: 0;
+            background: rgba(183, 75, 75, 0.9); padding: 10px 20px; border-radius: 10px; color: white;
+            font-size: 2rem; transition: opacity 0.3s ease;
         }
         #subject-detail-section .panel:hover h3 { opacity: 1; }
 
-        /* --- ABOUT ME GALLERY CSS --- */
-        .gallery-title { text-align: center; color: white; margin-bottom: 30px; }
+        /* --- ABOUT ME GALLERY --- */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -45,38 +49,29 @@
             margin: 0 auto;
         }
         .gallery-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 15px;
-            transition: 0.3s;
-            cursor: zoom-in;
+            width: 100%; height: 250px; object-fit: cover; border-radius: 15px;
+            transition: 0.3s; cursor: zoom-in;
         }
         .gallery-item img:hover { transform: translateY(-10px); filter: brightness(1.1); }
 
         .back-btn {
             background: #b74b4b; color: #fff; padding: 10px 25px; border: none;
-            border-radius: 30px; cursor: pointer; margin-bottom: 20px; font-weight: bold;
-            font-size: 1.4rem;
+            border-radius: 30px; cursor: pointer; margin-bottom: 20px; font-weight: bold; font-size: 1.4rem;
         }
 
         /* --- FADE EFFECT --- */
-        .fade-in {
-            animation: fadeIn 0.8s ease forwards;
-        }
+        .fade-in { animation: fadeIn 0.8s ease forwards; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- LIGHTBOX (WHOLE PICTURE) --- */
+        /* --- LIGHTBOX --- */
         #lightbox {
             display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); justify-content: center; align-items: center; cursor: pointer;
         }
-        #lightbox img {
-            max-width: 90%; max-height: 85%; border: 3px solid #b74b4b; border-radius: 10px;
-        }
+        #lightbox img { max-width: 90%; max-height: 85%; border: 3px solid #b74b4b; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -120,35 +115,32 @@
     <button class="back-btn" onclick="showPortfolio()">← Back to Subjects</button>
     <h2 id="current-subject-title" style="color: white; margin-bottom: 20px; font-size: 3rem;">Subject Name</h2>
     <div class="container">
-        <div class="panel" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80')"><h3>Task 1</h3></div>
-        <div class="panel" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80')"><h3>Task 2</h3></div>
-        <div class="panel" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80')"><h3>Task 3</h3></div>
+        <div id="main-panel" class="panel">
+            <h3 id="panel-text">Main Task</h3>
+        </div>
     </div>
 </section>
 
 <section id="about-section" style="display: none; padding: 100px 7%;">
     <div class="gallery-title">
-       <h1 style="font-size: 3.5rem; margin-bottom: 20px;">About <span>Me</span></h1>
-        <p style="line-height: 2; font-size: 1.5rem; color: #fff; max-width: 800px; margin: 0 auto 50px auto;">
+       <h1 style="font-size: 3.5rem; margin-bottom: 20px; text-align: center;">About <span>Me</span></h1>
+        <p style="line-height: 2; font-size: 1.5rem; color: #fff; max-width: 800px; margin: 0 auto 50px auto; text-align: center;">
             Hello, So my full name is Allen Francis N. Popatco. <br>
             I am 18 years old from Imus, Cavite. <br>
-            I'm passionate about being a sound technology, especially working as a sound technician and handling speakers and audio systems. <br>
-            Aside from that, I'm also a caring and easygoing person who loves being around good people.
+            I'm passionate about being a sound technology, especially working as a sound technician and handling speakers and audio systems.
         </p>
     </div>
     <div class="gallery-grid">
-        <div class="gallery-item"><img src="img1.jpg" alt="Gallery 1"></div>
-        <div class="gallery-item"><img src="img2.jpg" alt="Gallery 2"></div>
-        <div class="gallery-item"><img src="img3.jpg" alt="Gallery 3"></div>
-        <div class="gallery-item"><img src="img4.jpg" alt="Gallery 4"></div>
-        <div class="gallery-item"><img src="img5.jpg" alt="Gallery 5"></div>
-        <div class="gallery-item"><img src="img6.jpg" alt="Gallery 6"></div>
+        <div class="gallery-item"><img src="img1.jpg" alt="1"></div>
+        <div class="gallery-item"><img src="img2.jpg" alt="2"></div>
+        <div class="gallery-item"><img src="img3.jpg" alt="3"></div>
+        <div class="gallery-item"><img src="img4.jpg" alt="4"></div>
+        <div class="gallery-item"><img src="img5.jpg" alt="5"></div>
+        <div class="gallery-item"><img src="img6.jpg" alt="6"></div>
     </div>
 </section>
 
-<div id="lightbox" onclick="this.style.display='none'">
-    <img id="lightbox-img" src="">
-</div>
+<div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
 
 <script>
     const sections = {
@@ -159,17 +151,14 @@
     };
 
     function hideAll() {
-        Object.values(sections).forEach(s => {
-            s.style.display = 'none';
-            s.classList.remove('fade-in');
-        });
+        Object.values(sections).forEach(s => { s.style.display = 'none'; s.classList.remove('fade-in'); });
         document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
     }
 
     function showSection(key, display = 'block') {
         hideAll();
         sections[key].style.display = display;
-        void sections[key].offsetWidth; // Reset animation
+        void sections[key].offsetWidth; 
         sections[key].classList.add('fade-in');
     }
 
@@ -181,14 +170,40 @@
         showSection('detail', 'block');
         document.getElementById('current-subject-title').innerText = name;
         document.getElementById('nav-portfolio').classList.add('active');
+
+        const panel = document.getElementById('main-panel');
+        const text = document.getElementById('panel-text');
+
+        if (name === 'Programming') {
+            panel.style.backgroundImage = "url('img10.jpg')";
+            text.innerText = "In this activity, we practiced programming and simulating networks using Packet Tracer. It helped us understand how devices communicate, how to configure routers and switches, and how to troubleshoot network problems.";
+        } 
+        else if (name === 'Computer Servicing System') {
+            panel.style.backgroundImage = "url('img11.jpg')";
+            text.innerText = "In this activity, we are practicing patch panel as part for our preparation for TESDA. This hands on activity allows us to apply what we have learned in class and develop our technical skills.";
+        }
+        else if (name === 'Physical Education') {
+            panel.style.backgroundImage = "url('img12.jpg')";
+            text.innerText = "For our PE exam, we practiced and performed a cheer dance. This activity taught us the importance of teamwork, rhythm, and communication"
+        }
+        else if (name === 'Media and Literacy') {
+            panel.style.backgroundImage = "url('img13.jpg')";
+            text.innerText = "In this activity, we created a mind map to explore the effects of digital wallets, online banking, and online shopping on daily life. We discussed how these technologies have changed how Filipinos spend money, making transactions faster and more convenient.";
+        }
+        else if (name === 'Christian Living') {
+            panel.style.backgroundImage = "url('img14.jpg')";
+            text.innerText = "We make reflection paper here about How to be holy";
+        }
+        else if (name === 'Entrepreneurship') {
+            panel.style.backgroundImage = "url('img15.jpg')";
+            text.innerText = "We created logo here. It helped us explore creativity, think about branding, and learn how to represent a business visually.";
+        }
     }
 
-    // Lightbox Functionality
     document.querySelectorAll('.gallery-item img').forEach(img => {
         img.onclick = () => {
-            const lb = document.getElementById('lightbox');
             document.getElementById('lightbox-img').src = img.src;
-            lb.style.display = 'flex';
+            document.getElementById('lightbox').style.display = 'flex';
         };
     });
 </script>
