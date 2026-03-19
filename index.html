@@ -5,40 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <title>Portfolio Website</title>
+    <title>Allen's Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+        /* --- EXPANDING CARDS CSS --- */
+        #subject-detail-section .container {
+            display: flex;
+            flex-direction: column;
+            width: 90vw;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        #subject-detail-section .panel {
+            background-size: cover;
+            background-position: center;
+            height: 80px;
+            border-radius: 25px;
+            margin: 10px 0;
+            position: relative;
+            overflow: hidden;
+            transition: height 0.5s ease, transform 0.3s ease;
+        }
+        #subject-detail-section .panel:hover { height: 400px; transform: scale(1.02); }
+        #subject-detail-section .panel h3 {
+            position: absolute; bottom: 20px; left: 20px; opacity: 0;
+            background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 10px; color: white;
+            font-size: 1.8rem;
+        }
+        #subject-detail-section .panel:hover h3 { opacity: 1; }
+
+        /* --- ABOUT ME GALLERY CSS --- */
+        .gallery-title { text-align: center; color: white; margin-bottom: 30px; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 90%;
+            margin: 0 auto;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: 0.3s;
+            cursor: zoom-in;
+        }
+        .gallery-item img:hover { transform: translateY(-10px); filter: brightness(1.1); }
+
+        .back-btn {
+            background: #b74b4b; color: #fff; padding: 10px 25px; border: none;
+            border-radius: 30px; cursor: pointer; margin-bottom: 20px; font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        /* --- FADE EFFECT --- */
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- LIGHTBOX (WHOLE PICTURE) --- */
+        #lightbox {
+            display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); justify-content: center; align-items: center; cursor: pointer;
+        }
+        #lightbox img {
+            max-width: 90%; max-height: 85%; border: 3px solid #b74b4b; border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
 
-    <header>
+<header>
     <a href="#" class="logo">Allen</a>
     <nav>
         <a href="#" id="nav-home" class="active" onclick="showHome()">Home</a>
         <a href="#" id="nav-about" onclick="showAbout()">About Me</a>
-        <a href="#" id="nav-portfolio">Portfolio</a>
+        <a href="#" id="nav-portfolio" onclick="showPortfolio()">Portfolio</a>
     </nav>
 </header>
 
-<section class="home">
+<section class="home fade-in" id="home-section">
     <div class="home-img">
-        <div class="slider">
-            <img src="main.jpg" id="profile-img" alt="Allen's Profile Picture">
-        </div>
+        <div class="slider"><img src="main.jpg" id="profile-img" alt="Profile"></div>
     </div>
-
     <div class="home-content">
-        <h1 id="home-title">Hi, It's <span>Allen</span></h1>
-        <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
-            Minus labore dolores esse. Odit similique doloribus tenetur 
-            doloremque, sunt commodi in ipsa repudiandae debitis deleniti 
-            blanditiis quibusdam quaerat neque asperiores ea.
-        </p>
-
-        <div class="social-icons" id="social-icons">
+        <h1>Hi, It's <span>Allen</span></h1>
+        <p>Welcome to my Portfolio. To know me more, just click "About Me".</p>
+        <div class="social-icons">
             <a href="https://www.facebook.com/virtueeeeeee/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
             <a href="https://www.instagram.com/heatheeeerrrrr/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
         </div>
     </div>
 </section>
+
+<section id="portfolio-section" style="display: none; padding: 100px 7%; text-align: center;">
+    <h1 style="margin-bottom: 40px; color: white; font-size: 4rem;">My <span>Subjects</span></h1>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+        <button onclick="openSubject('Programming')" class="btn">Programming</button>
+        <button onclick="openSubject('Computer Servicing System')" class="btn">Computer Servicing System</button>
+        <button onclick="openSubject('Physical Education')" class="btn">Physical Education</button>
+        <button onclick="openSubject('Media and Literacy')" class="btn">Media and Literacy</button>
+        <button onclick="openSubject('Christian Living')" class="btn">Christian Living</button>
+        <button onclick="openSubject('Entrepreneurship')" class="btn">Entrepreneurship</button>
+    </div>
+</section>
+
+<section id="subject-detail-section" style="display: none; padding: 100px 7%;">
+    <button class="back-btn" onclick="showPortfolio()">← Back to Subjects</button>
+    <h2 id="current-subject-title" style="color: white; margin-bottom: 20px; font-size: 3rem;">Subject Name</h2>
+    <div class="container">
+        <div class="panel" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80')"><h3>Task 1</h3></div>
+        <div class="panel" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80')"><h3>Task 2</h3></div>
+        <div class="panel" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80')"><h3>Task 3</h3></div>
+    </div>
+</section>
+
+<section id="about-section" style="display: none; padding: 100px 7%;">
+    <div class="gallery-title">
+       <h1 style="font-size: 3.5rem; margin-bottom: 20px;">About <span>Me</span></h1>
+        <p style="line-height: 2; font-size: 1.5rem; color: #fff; max-width: 800px; margin: 0 auto 50px auto;">
+            Hello, So my full name is Allen Francis N. Popatco. <br>
+            I am 18 years old from Imus, Cavite. <br>
+            I'm passionate about being a sound technology, especially working as a sound technician and handling speakers and audio systems. <br>
+            Aside from that, I'm also a caring and easygoing person who loves being around good people.
+        </p>
+    </div>
+    <div class="gallery-grid">
+        <div class="gallery-item"><img src="img1.jpg" alt="Gallery 1"></div>
+        <div class="gallery-item"><img src="img2.jpg" alt="Gallery 2"></div>
+        <div class="gallery-item"><img src="img3.jpg" alt="Gallery 3"></div>
+        <div class="gallery-item"><img src="img4.jpg" alt="Gallery 4"></div>
+        <div class="gallery-item"><img src="img5.jpg" alt="Gallery 5"></div>
+        <div class="gallery-item"><img src="img6.jpg" alt="Gallery 6"></div>
+    </div>
+</section>
+
+<div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="">
+</div>
+
+<script>
+    const sections = {
+        home: document.getElementById('home-section'),
+        port: document.getElementById('portfolio-section'),
+        detail: document.getElementById('subject-detail-section'),
+        about: document.getElementById('about-section')
+    };
+
+    function hideAll() {
+        Object.values(sections).forEach(s => {
+            s.style.display = 'none';
+            s.classList.remove('fade-in');
+        });
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    }
+
+    function showSection(key, display = 'block') {
+        hideAll();
+        sections[key].style.display = display;
+        void sections[key].offsetWidth; // Reset animation
+        sections[key].classList.add('fade-in');
+    }
+
+    function showHome() { showSection('home', 'flex'); document.getElementById('nav-home').classList.add('active'); }
+    function showPortfolio() { showSection('port', 'block'); document.getElementById('nav-portfolio').classList.add('active'); }
+    function showAbout() { showSection('about', 'block'); document.getElementById('nav-about').classList.add('active'); }
+    
+    function openSubject(name) {
+        showSection('detail', 'block');
+        document.getElementById('current-subject-title').innerText = name;
+        document.getElementById('nav-portfolio').classList.add('active');
+    }
+
+    // Lightbox Functionality
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+        img.onclick = () => {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = img.src;
+            lb.style.display = 'flex';
+        };
+    });
+</script>
 </body>
 </html>
